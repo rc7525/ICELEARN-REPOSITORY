@@ -1,0 +1,41 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <header class="jumbotron">
+    <div class="d-flex justify-content-center">
+         <form  action="/schools/<%= school._id %>/programs" method="POST">
+            <div class="form-row">
+                <div class="form-group col-md-12 form-center">
+                    <h2 class="form-title">New Program</h2>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12 form-left form-style">
+                     <label class="required" for="inputName">Semester Name</label>
+                     <input type="text" class="form-control" id="inputName" name=program[name] placeholder="Semester Name" required = 'required' autofocus>
+                </div>
+            </div>
+            <div class="fill-height-small"></div>
+            <div class="form-row">
+                <div class="form-group col-md-12 form-left form-style">
+                     <label class="required" for="inputDesc">Description</label>
+                     <textarea class="form-control rounded-0" id="inputDesc" rows="5" cols="50" name=program[desc] required = 'required'></textarea>
+                </div>
+            </div>
+            <div class="fill-height-small"></div>
+            <div class="form-row">
+                <div class="form-group col-md-12 form-center form-style">
+                     <button type="submit" class="btn btn-primary btn-md">Submit</button>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12 form-left form-style">
+                    <a class="btn btn-default" href="/schools/<%= school._id %>"><i class="fa fa-arrow-left"></i> Go back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</header>
+</div>  
+
+<% include ../partials/footer %>

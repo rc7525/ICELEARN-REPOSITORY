@@ -1,0 +1,32 @@
+<% include ../partials/header %> 
+
+<div class="container">
+  <header class="jumbotron">
+	<div class="row">
+        <div class="col-md-12">
+            <div class="form-row">
+                <div class="form-group col-md-12 form-center">
+                    <h2 class="form-title">Notifications</h2>
+                </div>
+            </div>
+         </div>
+    </div>
+	
+	<h3>Announcements</h3>
+	
+	<ul>
+		<% allNotifications.forEach(function(notification) { %>
+			<% if (notification.announcementId) { %>
+				<li>
+					<a class="form-style" href="/announcements/<%= notification.announcementId%>">
+						<%= notification.announcementName %>
+					</a>
+				</li>	
+			<% } %>	
+		<% }); %>
+	</ul>
+   <div class="fill-height-large"></div>
+   </header>  
+</div>	
+	
+<% include ../partials/footer %> 

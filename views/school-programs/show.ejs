@@ -1,0 +1,26 @@
+<% include ../partials/header%>
+
+<div class="container">
+    <header class="jumbotron">
+    <div class="d-flex justify-content-center class="form-style"">
+        <div class="col-md-12">
+            <h4 class="form-title form-center"><strong><%=program.name%></strong></h4>
+            <p></p>
+            <p></p>
+            <p class="form-style"><%- program.desc %></p>
+            <hr class="new2"></hr>
+                <p></p>
+                <% if(currentUser && currentUser.isSchoolAdmin) { %>
+                    <a class="special-button special-font" href="/schools/<%= school._id %>/programs/<%=program._id %>/edit">Edit</a>
+                    <form class="delete-form" action="/schools/<%= school._id %>/programs/<%=program._id %>?_method=DELETE" method="POST">
+                        <button class="special-button special-font">Delete</button>
+                    </form>
+                    <a class="special-button special-font" href="/programs/<%= program._id %>/semesters/new">Add New Semester</a>
+                <% } %>    
+                <p></p>
+        </div>
+    </div>
+    </header>
+</div>
+
+<% include ../partials/footer %>

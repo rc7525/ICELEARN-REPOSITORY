@@ -1,0 +1,73 @@
+<% include ../partials/header%>
+
+<div class="container">
+    <header class="jumbotron">
+        <div class="d-flex justify-content-center " >    
+            <div class="row">
+                <form action="/forgot" method="POST">
+                    <div class="form-row">
+                        <div class="form-group col-md-12 form-center"> 
+                            <h2 class="form-title">Password Reset</h2>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12 form-style form-left">
+                            <label class="required" for="inputEmail">Please enter your email address</label>
+                            <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" required = 'required' autofocus>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="fill-height-small"></div>
+                    </div>
+                    <div class="form-row form-style">
+                        <div class="form-group col-md-12 form-center">
+                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        </div>
+                    </div>
+                    <div class="fill-medium"></div>
+                    <div class="fill-small"></div>
+                </form>    
+            </div> 
+        </div>
+        </div>
+    </header>     
+</div>    
+
+<!--<div class="container custom-container">-->
+<!--    <div class=jumbotron>-->
+<!--    <div class="d-flex justify-content-center align-items-center container " style="font-style: italic;font-family:helvetica; font-weight:normal; width: 350px; height: 460px; background-color:#f7f6f4;" >  -->
+<!--        <div class="row " >-->
+<!--            <form action="/forgot" method="POST">-->
+<!--                <div class="form-row">-->
+<!--                    <div class="form-group col-md-12" style="text-align: center">-->
+<!--                        <h2>Password Reset</h2>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-row">-->
+<!--                    <div class="form-group col-md-12" style="text-align: left">-->
+<!--                        <label class="required" for="inputEmail">Please enter your email address</label>-->
+<!--                        <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Email" required = 'required' autofocus>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-row">-->
+<!--                    <div class="fill-height-small"></div>-->
+<!--                </div>-->
+<!--                <div class="form-row">-->
+<!--                    <div class="form-group col-md-12" style="text-align: center">-->
+<!--                        <button type="submit" class="btn btn-primary btn-block">Submit</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-row">-->
+<!--                    <div class="fill-height-large"></div>-->
+<!--                </div>-->
+<!--            </div> -->
+<!--        </form>-->
+<!--        <div class="fill-height-large"></div>-->
+<!--    </div>-->
+<!--    <div class="fill-height-large"></div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<% include ../partials/footer %>
+
+

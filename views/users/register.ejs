@@ -1,0 +1,54 @@
+<% include ../partials/header%>
+
+<div class="container">
+    <header class="jumbotron">
+        <div class="d-flex justify-content-center " >    
+            <div class="row">
+                <form action="/register" method="POST">
+                <div class="form-row">
+                    <div class="form-group col-md-12 form-center" >
+                        <h2 class="form-title">Resgister</h2>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12 form-style form-left">
+                        <label class="required" for="inputFirstname">First Name</label> 
+                        <input type="text" class="form-control" id="inputFirstname" name="firstName" placeholder="First Name" required = 'required' autofocus>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12 form-style form-left">
+                        <label class="required" for="lastLastname">Last Name</label>
+                        <input type="text" class="form-control" id="lastLastname" name="lastName" placeholder="Last Name" required = 'required' autofocus>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12 form-style form-left">
+                        <label class="required" for="inputUsername">Email address</label>
+                        <input type="email" class="form-control" id="inputUsername" name="username" placeholder="Email address" required = 'required' autofocus>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12 form-style form-left">
+                        <label class="required" for="inputPassword4">Password</label>
+                        <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password" required = 'required' autofocus>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="fill-height-small"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12 form-style form-center">
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="fill-height-small"></div>
+                </div>
+            </form>    
+            </div> 
+        </div>
+        </div>
+    </header>     
+</div>    
+<% include ../partials/footer %>

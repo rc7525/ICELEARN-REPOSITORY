@@ -1,0 +1,111 @@
+<% include ../partials/header%>
+
+<div class="container">
+    <header class="jumbotron">
+        <div class="row">
+            <div class="col-md-12 align-center">
+                <h1 class="school-form-title">Welcome to CMS College, Kottayam!</h1>
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="col-md-3">
+                            <div class="fill-height-small"></div>
+                        </div>
+                        <form action="/schools/index" method="GET" class="form-inline">
+                            <div class="form-group">
+                                <input type="text" name="search" placeholder="Search for a School..." class="form-control normal-font">
+                                <div class="fill-width-small"></div>
+                                <input type="submit" value="  Search  " class="special-button special-font">
+                                <% if(currentUser &&  currentUser.isSchoolAdmin) { %>
+                                    <div class="fill-width-small"></div>
+                                    <a class="special-button special-font" href="/schools/new">Add New College</a>
+                                <% } %>    
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="fill-height-medium"></div>
+                    </div>
+                </div>
+            
+   
+                <div class="row text-center" id="school-grid">
+                <% schools.forEach(function(school){ %>
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card">
+                        <img src="<%= school.image %>" class="card-img-top" alt="">
+                        <div class="card-body">
+                            <h5 class="card-title"><strong><%= school.name %></strong></h5>
+                            <em class="normal-font"> <%- school.desc.substring(0,50) %> ...</em>
+                            <p></p>
+                            <% if (school.rating === 0) { %>
+                                <em class="normal-font">No reviews yet.</em>
+                                <% } else { %>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star <% if (school.rating > 1.5) { %> checked <% } %>"></span>
+                                <span class="fa fa-star <% if (school.rating > 2.5) { %> checked <% } %>"></span>
+                                <span class="fa fa-star <% if (school.rating > 3.5) { %> checked <% } %>"></span>
+                                <span class="fa fa-star <% if (school.rating > 4.5) { %> checked <% } %>"></span>
+                            <% } %>
+                            <a class="normal-font" href="/schools/ <%= school._id %>"><em style="color:#ff6a00">Read More</em></a>
+                        </div>
+                    </div>
+                </div> 
+                <% }) %>
+            </div>
+
+            <nav aria-label="Page navigation">
+                <% if (pages && pages > 0) { %>
+                <ul class="pagination justify-content-center">
+                    <% if (current == 1) { %>
+                    <li class="page-item disabled"><a class="page-link">First</a></li>
+                    <% } else { %>
+                    <li><a class="page-link" href="/schools">First</a></li>
+                    <% } %>
+             
+                    <% if (current == 1) { %>
+                    <li class="page-item disabled"><a class="page-link">«</a></li>
+                    <% } else { %>
+                    <li><a class="page-link" href="/schools<%if(search){%>?search=<%=search%><%}%>">First</a></li>
+                    <% } %>
+                    
+                    <% if (current == 1) { %>
+                    <li class="disabled"><a>«</a></li>
+                    <% } else { %>
+                    <li><a class="page-link" href="/schools?page=<%= Number(current) - 1 %><%if(search){%>&search=<%=search%><%}%>">«</a></li>
+                    <% } %>
+                    
+                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                    <% if (i !== 1) { %>
+                    <li class="page-item disabled"><a class="page-link">...</a></li>
+                    <% } %>
+                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                    <% if (i == current) { %>
+                    <li class="active"><a class="page-link"><%= i %></a></li>
+                    <% } else { %>
+                    <li><a class="page-link" href="/schools?page=<%= i %><%if(search){%>&search=<%=search%><%}%>"><%= i %></a></li>
+                    <% } %>
+                    <% if (i == Number(current) + 4 && i < pages) { %>
+                    <li class="page-item disabled"><a class="page-link">...</a></li>
+                    <% } %>
+                    <% } %>
+             
+                    <% if (current == pages) { %>
+                    <li class="page-item disabled"><a class="page-link">»</a></li>
+                    <% } else { %>
+                    <li><a class="page-link" href="/schools?page=<%= Number(current) + 1 %><%if(search){%>&search=<%=search%><%}%>">»</a></li>
+                    <% } %>
+             
+                    <% if (current == pages) { %>
+                    <li class="page-item disabled"><a class="page-link">Last</a></li>
+                    <% } else { %>
+                    <li><a class="page-link" href="/schools?page=<%= pages %><%if(search){%>&search=<%=search%><%}%>">Last</a></li>
+                    <% } %>
+                </ul>
+                <% } %>
+            </nav>
+        </div>
+    </div>    
+ </header>    
+</div>    
+
+<% include ../partials/footer %>

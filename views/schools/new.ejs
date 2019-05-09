@@ -1,0 +1,114 @@
+<% include ../partials/header%>
+<div class="container">
+   <header class="jumbotron">
+    <div class="row">
+        <div class="col-md-12 normal-font">
+            <form  action="/schools" method="POST" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="form-group col-md-12" style="text-align: center">
+                        <h2>Add New School</h2>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label class="required" for="inputName">Name</label> 
+                      <input type="text" class="form-control" id="inputName" name="name" placeholder="Name" required = 'required' autofocus>
+                    </div>
+                    <div class="form-group col-md-6"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label class="required" for="inputAddress1">Address 1</label>
+                      <input type="text" class="form-control" id="inputAddress1" name="address_1" placeholder="Address 1" required = 'required' autofocus>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="inputAddress2">Address 2</label>
+                      <input type="text" class="form-control" id="inputAddress2" name="address_2" placeholder="Address 2" autofocus>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label class="required" for="inputCity">City</label>
+                      <input type="text" class="form-control" id="inputCity" name="city" placeholder="City" required = 'required' autofocus>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="fill-height"></div>
+                      <label class="required" for="inputState">State</label>
+                        <select id="inputState" name="state" placeholder="State" required = 'required' autofocus>
+                            <option>Please Select</option> 
+                            <option value="AN">Andaman & Nicobar</option>
+                            <option value="AP">Andhra Pradesh</option>
+                            <option value="AR">Arunachal Pradesh</option>
+                            <option value="AS">Assam</option>
+                            <option value="BR">Bihar</option>
+                            <option value="CH">Chandigarh</option>
+                            <option value="CG">Chhattisgarh</option>
+                            <option value="DN">Dadra and Nagar Haveli</option>
+                            <option value="DL">Delhi</option>
+                            <option value="DD">Daman & Diu</option>
+                            <option value="GA">Goa</option>
+                            <option value="GJ">Gujarat</option>
+                            <option value="HR">Haryana</option>
+                            <option value="HP">Himachal Pradesh</option>
+                            <option value="JK">Jammu & Kashmir</option>
+                            <option value="JS">Jharkhand</option>
+                            <option value="KA">Karnataka</option>
+                            <option value="KL">Kerala</option>
+                            <option value="LD">Lakshadweep</option>
+                            <option value="MP">Madhya Pradesh</option>
+                            <option value="MH">Maharashtra</option>
+                            <option value="MN">Manipur</option>
+                            <option value="ML">Meghalaya</option>
+                            <option value="MZ">Mizoram</option>
+                            <option value="NL">Nagaland</option>
+                            <option value="OR">Orissa</option>
+                            <option value="PY">Pondicherry</option>
+                            <option value="PB">Punjab</option>
+                            <option value="RJ">Rajasthan</option>
+                            <option value="SK">Sikkim</option>
+                            <option value="TN">Tamil Nadu</option>
+                            <option value="TR">Tripura</option>
+                            <option value="UK">Uttarakhand</option>
+                            <option value="UP">Uttar Pradesh</option>
+                            <option value="WB">West Bengal</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label class="required" for="inputPostalCode">Postal Code (Pattern: 999999)</label>
+                      <input type="text" class="form-control" id="inputPostalCode" name="zip" pattern="[0-9]{6}" placeholder="Postal Code" required = 'required' autofocus>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label class="required" for="inputPhone">Phone Number (Pattern: 999-999-9999)</label>
+                      <input type="text" class="form-control" id="inputPhone" name="phone_number" placeholder="Phone Number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required = 'required' autofocus>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label class="required" for="inputImage">Image</label>
+                      <input class="form-control" id="inputImage" type="file" name="image" accept="image/*" placeholder="Your iconic respresentation" required = 'required' autofocus>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label class="required" for="inputDesc">Description</label>
+                      <textarea class="form-control rounded-0" id="inputDesc" rows="8" cols="500" name="desc" required = 'required'></textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <a class="btn btn-default" href="/schools/index"><i class="fa fa-arrow-left"></i> Go back</a>
+                    </div>
+                    <div class="form-group col-md-6">
+                       <button type="submit" class="btn btn-primary btn-md">Submit</button>
+                    </div>
+                </div>
+                <div class="fill"></div>
+            </form>
+        </div>    
+    </div>
+    </header>
+</div>    
+<% include ../partials/footer %>
+

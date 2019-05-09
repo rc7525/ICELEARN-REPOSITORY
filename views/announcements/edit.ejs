@@ -1,0 +1,41 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <header class="jumbotron">
+    <div class="d-flex justify-content-center">
+        <form  action="/announcements/<%= announcement._id %>?_method=PUT" method="POST">
+            <div class="form-row">
+                <div class="form-group col-md-12 form-center">
+                    <h2 class="form-title">Edit Announcement</h2>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12 form-style">
+                     <label class="required form-left" for="inputName">Announcement Subject</label>
+                     <input type="text" class="form-control" id="inputName" name="announcement[name]" value="<%= announcement.name %>" placeholder="Announcement Subject" required = 'required' autofocus>
+                </div>
+            </div>
+            <div class="fill-height-small"></div>
+            <div class="form-row">
+                <div class="form-group col-md-12 form-style">
+                     <label class="required form-left" for="inputName">Description</label>
+                     <textarea class="form-control rounded-0" id="inputDesc" rows="5" cols="50" name="desc" required = 'required'><%= announcement.desc %></textarea>
+                </div>
+            </div>
+            <div class="fill-height-small"></div>
+            <div class="form-row">
+                <div class="form-group col-md-12 form-center form-style">
+                     <button type="submit" class="btn btn-primary btn-md">Submit</button>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12 form-style">
+                    <a class="btn btn-default href-class form-style form-left" href="/announcements/<%= announcement._id %>"><i class="fa fa-arrow-left"></i> Go back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</header>
+</div>  
+
+<% include ../partials/footer %>

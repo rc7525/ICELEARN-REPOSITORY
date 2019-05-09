@@ -1,0 +1,39 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <header class="jumbotron">
+    <div class="row normal-font">
+        <div class="col-md-12 form-center">
+            <h2 class="form-title form-style">All Programs for: <%= school.name %></h2>
+        </div> 
+        <div class="col-md-12 form-center">
+            <div class="fill-height-x-small"></div>
+        </div> 
+        <div class="col-md-12 form-left">
+            <% school.programs.forEach(function(program){ %>
+            <div class="row">
+                <div class="col-md-12 form-left">
+                    <%= program.desc %>
+            </div>
+        </div> 
+        <p></p>
+        <div class="col-md-12 form-left">
+            <% if (currentUser &&  currentUser.isSchoolAdmin) { %>
+                 <a class="special-button special-font" href="/schools/<%= school._id %>/programs/<%=program._id %>/edit">Edit</a>
+                 <form class="delete-form" action="/schools/<%= school._id %>/programs/<%=program._id %>?_method=DELETE" method="POST">
+                    <button class="special-button special-font">Delete</button>
+                 </form>
+                 <a class="special-button special-font" href="/programs/<%= program._id %>/semesters/new">Add New Semester</a>
+            <% } %>
+            <hr class="special-hr">
+            <% }); %>
+        </div>    
+            
+        <div class="col-md-12 form-left">
+             <a class="btn btn-default href-class form-style" href="/schools/<%= school._id %>"><i class="fa fa-arrow-left"></i> Go back</a>
+        </div>
+     </div>
+    </header>
+</div>
+
+<% include ../partials/footer %>

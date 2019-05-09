@@ -1,0 +1,40 @@
+<% include ../partials/header%>
+<div class="container">
+    <header class="jumbotron">
+    <div class="d-flex justify-content-center">
+        <form  action="/userss/<%= currentUser._id %>?_method=PUT" method="POST">
+            <div class="form-row">
+                <div class="form-group col-md-12 form-center">
+                    <h2 class="form-title">Profile Edit</h2>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12 form-style">
+                     <label class="required form-left" for="inputFName">First Name</label>
+                     <input type="text" class="form-control" id="inputFName" name="currentUSer[firstName]" value="<%= currentUser.firstName %>" required = 'required' autofocus>
+                </div>
+            </div>
+            <div class="fill-height-small"></div>
+            <div class="form-row">
+                <div class="form-group col-md-12 form-style">
+                     <label class="required form-left" for="inputLName">Last Name</label>
+                     <input type="text" class="form-control" id="inputLName" name="currentUSer[lastName]" value="<%= currentUser.lastName %>" required = 'required' autofocus>
+                </div>
+            </div>
+            <div class="fill-height-small"></div>
+            <div class="form-row">
+                <div class="form-group col-md-12 form-center form-style">
+                     <button type="submit" class="btn btn-primary btn-md">Submit</button>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12 form-style">
+                    <a class="btn btn-default href-class form-style form-left" href="/"><i class="fa fa-arrow-left"></i> Go back</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</header>
+</div>  
+
+<% include ../partials/footer %>
