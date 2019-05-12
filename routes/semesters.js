@@ -1,155 +1,213 @@
 var express = require("express");
 var router = express.Router({mergeParams: true});
+var School = require("../models/school");
 var Program = require("../models/program");
 var Semester = require("../models/semester");
 var middleware = require("../middleware");
 var validator   = require("express-validator/check");
 
 // Semesters Index
-router.get("/programs/:id/semesters", [validator.param('id').isMongoId().trim()], function (req, res) {
+router.get("/schools/:id/programs/:program_id/semesters", [validator.param('id').isMongoId().trim()], function (req, res) {
     var errors = validator.validationResult(req);
     
     if (!errors.isEmpty() ) {
        req.flash("error", "Page not found");
-       res.redirect("/Progrmas/index");
+       res.redirect("back");
     }
-    else {    
-        Program.findById(req.params.id).populate({
-            path: "semesters",
-            options: {sort: {createdAt: -1}} // sorting the populated semesters array to show the latest first
-        }).exec(function (err, program) {
-            if (err || !program) {
-                req.flash("error", err.message);
-                return res.redirect("back");
-            }
-            res.render("program-semesters/index", {program: program});
-        });
-    }    
+    School.findById(req.params.id).
+            populate({
+                path: "programs",
+                options: {sort: {_id: -1}}
+            }).exec(function(err,foundSchool) {
+         if (err || !foundSchool) {
+            req.flash("error", "School not found");
+            res.redirect("schools/school._id/progrmas/index");
+         } else {
+            Program.findById(req.params.program_id).
+            populate({
+                path: "semesters",
+                options: {sort: {_id: -1}}
+            }).exec(function(err,foundProgram) {
+             if (err || !foundProgram) {
+                req.flash("error", "Program not found");
+                res.redirect("/schools/programs/index");
+             } else {
+                //render show template with that programs
+                res.render("program-semesters/index", {school:foundSchool, program:foundProgram});
+             } 
+            });
+         }
+    });
 });
 
 // Program Semesters New
-router.get("/programs/:id/semesters/new", [validator.param('id').isMongoId().trim()], middleware.isLoggedIn, function (req, res) {
+router.get("/schools/:id/programs/:program_id/semesters/new", [validator.param('id').isMongoId().trim()], middleware.isLoggedIn, function (req, res) {
     var errors = validator.validationResult(req);
     
     if (!errors.isEmpty() ) {
        req.flash("error", "Page not found");
-       res.redirect("/programs/index");
+       res.redirect("back");
     }
-    else {
-        Program.findById(req.params.id, function (err, program) {
-            if (err) {
-                req.flash("error", err.message);
-                return res.redirect("back");
-            }
-            res.render("program-semesters/new", {program: program});
-        });
-    }    
+    School.findById(req.params.id).
+            populate({
+                path: "programs",
+                options: {sort: {_id: -1}}
+            }).exec(function(err,foundSchool) {
+         if (err || !foundSchool) {
+            req.flash("error", "School not found");
+            res.redirect("schools/school._id/progrmas/index");
+         } else {
+            Program.findById(req.params.program_id).
+            populate({
+                path: "semesters",
+                options: {sort: {_id: -1}}
+            }).exec(function(err,foundProgram) {
+             if (err || !foundProgram) {
+                req.flash("error", "Program not found");
+                res.redirect("/schools/programs/index");
+             } else {
+                //render show template with that programs
+                res.render("program-semesters/new", {school:foundSchool, program:foundProgram});
+             } 
+            });
+         }
+    });
 });
 
 // Program Semesters Create
-router.post("/programs/:id/semesters", [validator.param('id').isMongoId().trim()], middleware.isLoggedIn, function (req, res) {
+router.post("/schools/:id/programs/:program_id/semesters", [validator.param('id').isMongoId().trim()], middleware.isLoggedIn, function (req, res) {
     var errors = validator.validationResult(req);
     
     if (!errors.isEmpty() ) {
        req.flash("error", "Page not found");
-       res.redirect("/programs/index");
+       res.redirect("back");
     }
     else {
         //lookup program using ID
-        Program.findById(req.params.id).populate("semesters").exec(function (err, program) {
+        School.findById(req.params.id).populate("programs").exec(function (err, foundSchool) {
             if (err) {
                 req.flash("error", err.message);
                 return res.redirect("back");
             }
-            Semester.create(req.body.semester, function (err, semester) {
+            Program.findById(req.params.program_id).populate("semesters").exec(function (err, foundProgram) {
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
+            }
+            Semester.create(req.body.semester, function (err, foundSemester) {
                 if (err) {
                     req.flash("error", err.message);
                     return res.redirect("back");
                 }
-                semester.program = program;
+                foundSemester.program = foundProgram;
                 //save semester
-                semester.save();
-                program.semesters.push(semester);
+                foundSemester.save();
+                foundProgram.semesters.push(foundSemester);
                 //save program
-                program.save();
-                req.flash("success", "Your program has been successfully added.");
-                res.redirect('/programs/' + program._id);
+                foundProgram.save();
+                req.flash("success", "Your semester has been successfully added.");
+                res.render("program-semesters/index", {school:foundSchool, program:foundProgram});
             });
         });
+      }); 
     }    
 });
 
 // Program Semesters Edit
-router.get("/programs/:id/semesters/:semester_id/edit", [validator.param('id').isMongoId().trim()],  middleware.isLoggedIn, function (req, res) {
+router.get("/schools/:id/programs/:program_id/semesters/:semester_id/edit", [validator.param('id').isMongoId().trim()],  middleware.isLoggedIn, function (req, res) {
     var errors = validator.validationResult(req);
     
     if (!errors.isEmpty() ) {
        req.flash("error", "Page not found");
-       res.redirect("/programs/index");
+       res.redirect("back");
     }
     else {
-        Semester.findById(req.params.semester_id, function (err, foundSemester) {
+        School.findById(req.params.id).populate("programs").exec(function (err, foundSchool) {
             if (err) {
                 req.flash("error", err.message);
                 return res.redirect("back");
             }
-            res.render("program-semesters/edit", {program_id: req.params.id, semester: foundSemester});
+            Program.findById(req.params.program_id).populate("semesters").exec(function (err, foundProgram) {
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
+            }
+            Semester.findById(req.params.semester_id, function (err, foundSemester) {
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
+            }
+            res.render("program-semesters/edit", {school:foundSchool, program: foundProgram, semester: foundSemester});
         });
+       }); 
+      });
     }    
 });
 
 // Programs Semesters Update
-router.put("/programs/:id/semesters/:semester_id", [validator.param('id').isMongoId().trim()],  function (req, res) {
+router.put("/schools/:id/programs/:program_id/semesters/:semester_id", [validator.param('id').isMongoId().trim()],  function (req, res) {
     var errors = validator.validationResult(req);
     
     if (!errors.isEmpty() ) {
        req.flash("error", "Page not found");
-       res.redirect("/programs/index");
+       res.redirect("back");
     }
     else {
-        Semester.findByIdAndUpdate(req.params.semester_id, req.body.semester, {new: true}, function (err, updatedSemester) {
+        School.findById(req.params.id).populate("programs").exec(function (err, foundSchool) {
             if (err) {
                 req.flash("error", err.message);
                 return res.redirect("back");
             }
-            Program.findById(req.params.id).populate("semesters").exec(function (err, program) {
+            Semester.findByIdAndUpdate(req.params.semester_id, req.body.semester, {new: true}, function (err, updatedSemester) {
                 if (err) {
                     req.flash("error", err.message);
                     return res.redirect("back");
                 }
-                program.save();
-                req.flash("success", "Your semester was successfully edited.");
-                res.redirect('/programs/' + program._id);
+                Program.findById(req.params.program_id).populate("semesters").exec(function (err, foundProgram) {
+                    if (err) {
+                        req.flash("error", err.message);
+                        return res.redirect("back");
+                    }
+                    foundProgram.save();
+                    req.flash("success", "Your semester was successfully edited.");
+                    res.render("program-semesters/index", {school:foundSchool, program:foundProgram, semester:updatedSemester});
             });
         });
+      });    
     }    
 });
 
 // Program Semesters Delete
-router.delete("/programs/:id/semesters/:semester_id", [validator.param('id').isMongoId().trim()],  middleware.isLoggedIn, function (req, res) {
+router.delete("/schools/:id/programs/:program_id/semesters/:semester_id", [validator.param('id').isMongoId().trim()],  middleware.isLoggedIn, function (req, res) {
     var errors = validator.validationResult(req);
     
     if (!errors.isEmpty() ) {
        req.flash("error", "Page not found");
-       res.redirect("/programs/index");
+       res.redirect("back");
     }
     else {
+        School.findById(req.params.id).populate("programs").exec(function (err, foundSchool) {
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
+            }    
         Semester.findByIdAndRemove(req.params.semester_id, function (err) {
             if (err) {
                 req.flash("error", err.message);
                 return res.redirect("back");
             }
-            Program.findByIdAndUpdate(req.params.id, {$pull: {semesters: req.params.semester_id}}, {new: true}).populate("semesters").exec(function (err, program) {
+            Program.findByIdAndUpdate(req.params.program_id, {$pull: {semesters: req.params.semester_id}}, {new: true}).populate("semesters").exec(function (err, foundProgram) {
                 if (err) {
                     req.flash("error", err.message);
                     return res.redirect("back");
                 }
                 //save changes
-                program.save();
-                req.flash("success", "Your program semester has been deleted successfully.");
-                res.redirect("/programs/" + req.params.id);
+                foundProgram.save();
+                req.flash("success", "Your Semester has been deleted successfully.");
+                res.render("program-semesters/index", {school:foundSchool, program:foundProgram});
             });
         });
+      });    
     }    
 });
 

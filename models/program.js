@@ -6,7 +6,13 @@ var programSchema = new mongoose.Schema({
     school: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "School"
-    }
+    },
+    semesters: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Semester"
+        }
+    ]
 }, {
     // if timestamps are set to true, mongoose assigns createdAt and updatedAt fields to your schema, the type assigned is Date.
     timestamps: true

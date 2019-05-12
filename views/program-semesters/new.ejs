@@ -3,11 +3,10 @@
 <div class="container">
     <header class="jumbotron">
     <div class="d-flex justify-content-center">
-        <!--action="/programs/<%= program._id %>/semesters" method="POST"-->
-         <form>
+         <form action="/schools/<%= school._id %>/programs/<%= program._id %>/semesters" method="POST">
             <div class="form-row">
                 <div class="form-group col-md-12 form-center">
-                    <h2 class="form-title">New Semester for: <% program.name %></h2>
+                    <h2 class="form-title">New Semester for: <%= program.name %></h2>
                 </div>
             </div>
             <div class="form-row">
@@ -25,7 +24,7 @@
             </div>
             <div class="fill-height-small"></div>
             <div class="form-row">
-                <div class="form-group col-md-12>
+                <div class="form-group col-md-12">
                     <div class="form-group col-md-12 form-left date">
                          <label class="required form-style" style="display:block">Start Date</label> 
                          <input class="form-style" style="display:block" id="startDate" type='date' name=semester[startDate] min="1000-01-01" max="3000-12-31" class="form-control" required = 'required'></input>
@@ -45,7 +44,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-md-12 form-left form-style">
-                    <a class="btn btn-default" href="/programs/index"><i class="fa fa-arrow-left"></i> Go back</a>
+                    <a class="btn btn-default" href="/schools/<%= school._id %>/programs/<%= program._id %>/semesters"><i class="fa fa-arrow-left"></i> Go back</a>
                 </div>
             </div>
         </form>

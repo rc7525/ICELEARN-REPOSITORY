@@ -14,7 +14,7 @@
                         <em>No programs yet.</em>
                     </h5>
                     <% } else { %>
-                    <p><h3 class="align-center"><strong>Latest Program Added</strong></h4></p>
+                    <p><h3 class="align-center"><strong>Latest Course Added</strong></h4></p>
                     <% school.programs.slice(0, 1).forEach(function(program){ %>
                         <p class="form-style"> <strong>Program Name: </strong><%= program.name%></p>
                         <p></p>
@@ -29,12 +29,12 @@
                     <% }); %>
                     <div class="fill-height-small"></div>
                      <div>
-                     <h4 class="form-style-large"><a href="/schools/<%= school._id %>/programs"><i class="fa fa-search" aria-hidden="true"></i> See all programs</a></h4>
+                     <h4 class="form-style-large"><a href="/schools/<%= school._id %>/programs"><i class="fa fa-search" aria-hidden="true"></i> See all courses</a></h4>
                     </div>
                 <% } %>
                 <div class="fill-height-small"></div>
                 <% if(currentUser && currentUser.isSchoolAdmin) { %>
-                    <a class="special-button special-font" href="/schools/<%= school._id %>/programs/new">Add New Program</a>
+                    <a class="special-button special-font" href="/schools/<%= school._id %>/programs/new">Add New Course</a>
                 <% } %>    
                 <p></p>
                 

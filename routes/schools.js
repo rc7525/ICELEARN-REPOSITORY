@@ -187,13 +187,20 @@ router.get("/schools/:id", [validator.param('id').isMongoId().trim()], function(
                 path: "programs",
                 options: {sort: {_id: -1}}
             }).exec(function(err,foundSchool) {
-         if (err || !foundSchool) {
-            req.flash("error", "School not found");
-            res.redirect("/schools/index");
-         } else {
-            //render show template with that school
-            res.render("schools/show", {school:foundSchool});
-         } 
+             if (err || !foundSchool) {
+                req.flash("error", "School not found");
+                res.redirect("/schools/index");
+             } else {
+                 Program.findById(req.params.id, function (err, foundProgram) {
+                    if (err) {
+                        req.flash("error", err.message);
+                        return res.redirect("back");
+                    } else {
+                        //render show template with that school
+                        res.render("schools/show", {school:foundSchool, program:foundProgram});
+                    }    
+                });        
+             } 
         });
     }
 });

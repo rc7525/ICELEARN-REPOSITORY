@@ -1,34 +1,73 @@
 <% include ../partials/header %>
+
 <div class="container">
     <header class="jumbotron">
     <div class="d-flex justify-content-center">
-            <form action="/programs/<%= program_id %>/semesters/<%= semester._id %>?_method=PUT" method="POST">
+        <form action="/schools/<%= school._id %>/programs/<%= program._id %>/semesters/<%= semester._id %>?_method=PUT" method="POST">
             <div class="form-row">
-                <div class="form-group col-md-12 form-center">
-                    <h2 class="form-title">Update <%= semester.name %></h2>
+                <div class="form-group col-md-12 form-left form-style">
+                     <label class="required" for="inputName">Semester Name: <%= semester.name %> </label>
                 </div>
             </div>
-            <div class="form-row form-style form-center">
-                <label class="required" for="inputText">Drescription</label>
-                <textarea class="form-control rounded-0" id="inputText" type="text" rows="5" cols="50" name=semester[desc] required = 'required' autofocus><%= semester.desc %> </textarea>
-            </div>
-            
             <div class="fill-height-small"></div>
-            
-            <div class="form-row form-style">
-                <div class="form-group col-md-12 form-center">
-                    <button type="submit" class="btn btn-primary btn-md">Submit</button>
+            <div class="form-row">
+                <div class="form-group col-md-12 form-left form-style">
+                     <label class="required" for="inputName">Description</label>
+                     <textarea class="form-control rounded-0" id="inputDesc" rows="3" cols="50" name=semester[desc] required = 'required'><%= semester.desc %></textarea>
                 </div>
             </div>
-            
-            <div class="form-row form-style">
-                <div class="form-group col-md-12 form-left">
-                   <a class="btn btn-default" "href-class" href="/programs/<%= program_id %>"><i class="fa fa-arrow-left"></i> Go back</a>
+            <div class="fill-height-small"></div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <div class="form-group col-md-12 form-left date">
+                         <label class="required form-style" style="display:block">Start Date</label> 
+                         <input class="form-style" style="display:block" id="startDate" type='date' name=semester[startDate] class="form-control" required = 'required'><%= semester.startDate %></input>
+                    </div>
+                    <div class="fill-width-large"> </div>
+                    <div class="form-group col-md-12 form-left date">
+                        <label id= "endDateLabel" class="required form-style">End Date</label>
+                        <input class="form-style" style="display:block" id="endDate" type='date' name=semester[endDate] class="form-control" required = 'required'><%= semester.endDate %></input>
+                    </div>
+                </div>    
+            </div>
+            <div class="fill-height-small"></div>
+            <div class="form-row">
+                <div class="form-group col-md-12 form-center form-style">
+                     <button type="submit" class="btn btn-primary btn-md">Submit</button>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12 form-left form-style">
+                   <a class="btn btn-default" href="/schools/<%= school._id %>/programs/<%= program._id %>/semesters"><i class="fa fa-arrow-left"></i> Go back</a>
                 </div>
             </div>
         </form>
     </div>
-    </header>
-</div>  
+</header>
+</div> 
+<script>
+$( document ).ready(function() {
+   $('form').on('submit', function(){
+    
+    var startDate = document.getElementById("startDate").value;
+    var endDate = document.getElementById("endDate").value;
+    var endDateLabel = document.getElementById("endDateLabel").value;
+    
+    // alert("Alert!!" + startDate + " " + endDate);
+    
+    if ((Date.parse(startDate) >= Date.parse(endDate))) {
+        $("#endDate").css("border-color", "red");
+        document.getElementById("endDateLabel").innerHTML = "<span style='color:red'>End date must be greater than the start date</span>";
+        return false;
+    }
+    else {
+        $("#endDate").css("display", "none")
+        $("#endDate").css("border-color", "");
+        return true;
+    }
+   }); 
+});
+</script>
+</header>
 
 <% include ../partials/footer %>
