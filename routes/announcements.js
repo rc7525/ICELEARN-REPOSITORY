@@ -96,6 +96,7 @@ router.post("/announcements", middleware.isLoggedIn, async function (req, res) {
         follower.save();
       }
       //redirect back to announcements page
+      req.flash("success", "Your announcement has been successfully added.");
       res.redirect(`/announcements/${announcement.id}`);
     } catch(err) {
         req.flash('error', err.message);
@@ -118,7 +119,6 @@ router.get("/announcements/:id", [validator.param('id').isMongoId().trim()], fun
                 req.flash("error", "Announcement not found");
                 res.redirect("/announcements/index");
              } else {
-                //render show template with that announcement
                 res.render("announcements/show", {announcement:foundAnnouncement});
              } 
         });
@@ -130,30 +130,19 @@ router.get("/announcements/:id/edit", [validator.param('id').isMongoId().trim()]
     var errors = validator.validationResult(req);
     
     if (!errors.isEmpty() ) {
-        req.flash("error", "Page not found");
-        res.redirect("/announcements/index");
+       req.flash("error", "Page not found");
+       res.redirect("/announcements/index");
     }
     else {
-        //finding announcements for edit 
-        if (req.isAuthenticated()) {
-            Announcement.findById(req.params.id, function(err,foundAnnouncement) {
-                 if (err || !foundAnnouncement) {
-                    req.flash("error", "Announcement not found");
-                    res.redirect("back");
-                } else {
-                    if (req.user.isSchoolAdmin) {
-                        res.render("announcements/edit", {announcement:foundAnnouncement});
-                    } else {
-                        req.flash("error", "Your permission is not allowing to perform this function");
-                        res.redirect("back");
-                    }    
-                } 
-            });
-        } else {
-            req.flash("error", "You need to be logged in to perform this function");
-            res.redirect("back");
-        }    
-    }
+        Announcement.findById(req.params.id, function (err, foundAnnouncement) {
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
+            } else {
+                res.render("announcements/edit", {announcement:foundAnnouncement});
+            }    
+        });
+    }    
 });
 
 //UPDATE ROUTE - update the details about one item
@@ -161,29 +150,21 @@ router.put("/announcements/:id", [validator.param('id').isMongoId().trim()], asy
     var errors = validator.validationResult(req);
     
     if (!errors.isEmpty() ) {
-        req.flash("error", "Page not found");
-        res.redirect("/announcements/index");
+       req.flash("error", "Page not found");
+       res.redirect("/announcements/index");
     }
     else {
-        if (req.isAuthenticated()) {
-            Announcement.findByIdAndUpdate(req.params.id, req.body.announcement, function(err,updatedAnnouncement) {
-                 if (err || !updatedAnnouncement) {
-                    req.flash("error", "Announcement not found");
-                    res.redirect("/announcements/index");
-                } else {
-                    if (req.user.isSchoolAdmin) {
-                        res.redirect("/announcements/" + req.params.id);
-                    } else {
-                        req.flash("error", "Your permission is not allowing to perform this function");
-                        res.redirect("back");
-                    }    
-                } 
-            });
-        } else {
-            req.flash("error", "You need to be logged in to perform this function");
-            res.redirect("back");
-        }    
-    }
+        Announcement.findByIdAndUpdate(req.params.id, req.body.announcement, {new: true}, function (err, updatedAnnouncement) {
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
+            }
+            else {
+                req.flash("success", "Your announcement has been updated successfully.");
+                res.redirect('/announcements/' + req.params.id);
+            }
+        });
+    }    
 });
 
 //DELETE ROUTE - Delete the item
@@ -191,37 +172,20 @@ router.delete("/announcements/:id", [validator.param('id').isMongoId().trim()], 
     var errors = validator.validationResult(req);
     
     if (!errors.isEmpty() ) {
-        req.flash("error", "Page not found");
-        res.redirect("/announcements/index");
+       req.flash("error", "Page not found");
+       res.redirect("/announcements/index");
     }
     else {
-      if (req.isAuthenticated()) {  
-          Announcement.findById(req.params.id, function(err,announcement) {
-              if (err || !announcement) {
-                  req.flash("error", "Announcement not found");
-                  res.redirect("/announcements/index");
-              } else {
-                  if (req.user.isSchoolAdmin) {
-                       Announcement.findByIdAndRemove(req.params.id, function (err) {
-                        if (err) {
-                          req.flash("error", "Not able to delete Announcement.");    
-                          res.redirect("/announcements/index");
-                         } else {
-                             req.flash("success", "Announcement Removed."); 
-                             res.redirect("/announcements/index");
-                        } 
-                    });
-                  } else {
-                      req.flash("error", "Your permission is not allowing to perform this function");
-                      res.redirect("back");
-                  }
-              }
-         });
-      } else {
-          req.flash("error", "You need to be logged in to perform this function");
-          res.redirect("back");
-      }
-    }
+        Announcement.findByIdAndRemove(req.params.id, function (err) {
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("back");
+            } else {
+                req.flash("success", "Your announcement has been deleted successfully.");
+                res.redirect("/announcements/index");
+            }
+        });
+    }    
 });
 
 function escapeRegExp(text) {

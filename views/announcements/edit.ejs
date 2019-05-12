@@ -12,14 +12,14 @@
             <div class="form-row">
                 <div class="form-group col-md-12 form-style">
                      <label class="required form-left" for="inputName">Announcement Subject</label>
-                     <input type="text" class="form-control" id="inputName" name="announcement[name]" value="<%= announcement.name %>" placeholder="Announcement Subject" required = 'required' autofocus>
+                     <input type="text" class="form-control" id="inputName" name="announcement[name]" value="<%= announcement.name %>" required = 'required' autofocus>
                 </div>
             </div>
             <div class="fill-height-small"></div>
             <div class="form-row">
                 <div class="form-group col-md-12 form-style">
-                     <label class="required form-left" for="inputName">Description</label>
-                     <textarea class="form-control rounded-0" id="inputDesc" rows="5" cols="50" name="desc" required = 'required'><%= announcement.desc %></textarea>
+                     <label class="required form-left" for="inputDesc">Description</label>
+                     <textarea class="form-control rounded-0" id="inputDesc" rows="5" cols="50" name="announcement[desc]" required = 'required'><%= announcement.desc %></textarea>
                 </div>
             </div>
             <div class="fill-height-small"></div>
